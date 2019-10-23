@@ -65,9 +65,9 @@ public class CalculatorTest {
 
 	}
 	
-	@Test void shouldAcceptManyDelimiters() {
-		assertEquals(6,Calculator.add("//[***]\n1***2***3"));
-
+	@Test
+	public void acceptsMultipleDelimiters() {
+		assertEquals(6,Calculator.add("//[-][;]\n1-2;3"));
 	}
 	
 }
