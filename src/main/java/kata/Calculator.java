@@ -14,7 +14,7 @@ public class Calculator {
 		return 0;
 		
 		else if(numbers.contains(",")){
-			Stream<String> num=Arrays.stream(numbers.split(","));
+			Stream<String> num=Arrays.stream(numbers.split(",|\n"));
 			return num.mapToInt(Integer::parseInt).sum();
 		}
 		else return Integer.parseInt(numbers);

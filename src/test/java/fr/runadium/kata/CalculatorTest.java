@@ -31,4 +31,10 @@ public class CalculatorTest {
 	public void shouldReturnSumOfMultiple() {
 		assertEquals(6, Calculator.add("1,2,3"));
 	}
+	
+	
+	@Test void shouldAcceptNewLine() {
+		assertEquals(6, Calculator.add("1,2\n3"));
+
+	}
 }
