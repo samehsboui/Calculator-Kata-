@@ -60,5 +60,14 @@ public class CalculatorTest {
 
 	}
 	
+	@Test void shouldAcceptAnyLength() {
+		assertEquals(6, Calculator.add("//[***]\n1***2***3"));
+
+	}
+	
+	@Test void shouldAcceptManyDelimiters() {
+		assertEquals(6,Calculator.add("//[***]\n1***2***3"));
+
+	}
 	
 }

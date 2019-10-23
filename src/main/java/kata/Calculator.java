@@ -1,6 +1,7 @@
 package kata;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -54,11 +55,23 @@ public class Calculator {
     	return parseInput(input).sum();
     }
     
+    
+    private static String parseDelimiter(String header) {
+		String delimiter = header.substring(2);
+		if (delimiter.startsWith("[")) {
+			delimiter = delimiter.substring(1, delimiter.length() - 1);
+		}
+		return Stream.of(delimiter.split("]\\["))
+				.map(Pattern::quote)
+				.collect(Collectors.joining("|"));
+	}
+    
+    
 	private static Calculator parseInput(String numbers) {
 		if(numbers.startsWith("//")){
 			
 			String[] parts = numbers.split("\n",2);
-			return new Calculator(parts[0].substring(2), parts[1]);
+			return new Calculator(parseDelimiter(parts[0]), parts[1]);
 		 }
 		else {
 			return new Calculator(",|\n", numbers);
