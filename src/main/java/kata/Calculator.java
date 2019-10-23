@@ -1,7 +1,11 @@
 package kata;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import ch.qos.logback.classic.pattern.EnsureExceptionHandling;
 
 
 
@@ -18,8 +22,27 @@ public class Calculator {
 		this.num = num;
 	}
 	
-    private int sum() {
-	return Arrays.stream(num.split(delimiter)).mapToInt(Integer::parseInt).sum();
+	
+	private int sum() {
+		ensureNoNegativeNumbers();
+		return getNumber().sum();
+	}
+	
+	private void ensureNoNegativeNumbers(){
+		String sequence=getNumber().filter(n->n<0).mapToObj(Integer::toString).collect(Collectors.joining(","));
+		if(!sequence.isEmpty())
+		{
+			throw new IllegalArgumentException("negatives "+sequence );
+		}
+	}
+	
+	
+    private IntStream getNumber() {
+    	if(num.isEmpty())
+    		return IntStream.empty();
+    	else
+	return Arrays.stream(num.split(delimiter)).mapToInt(Integer::parseInt);
+    
     }
     
     

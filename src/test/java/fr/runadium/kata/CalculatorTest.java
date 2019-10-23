@@ -2,8 +2,9 @@ package fr.runadium.kata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
+import org.junit.*;
 import kata.Calculator;
 
 public class CalculatorTest {
@@ -44,4 +45,13 @@ public class CalculatorTest {
 	}
 	
 	
+	@Test
+	public void thrownOnNegative() {
+		Assertions.assertThrows(IllegalArgumentException.class, () ->Calculator.add("-3"));
+	}
+	
+	@Test
+	public void thrownOnNegativeWithAllNumbersInMessage() {
+		Assertions.assertThrows(IllegalArgumentException.class, () ->Calculator.add("-3,-1,-2"));
+	}
 }
