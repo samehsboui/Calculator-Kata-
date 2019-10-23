@@ -41,7 +41,7 @@ public class Calculator {
     	if(num.isEmpty())
     		return IntStream.empty();
     	else
-	return Arrays.stream(num.split(delimiter)).mapToInt(Integer::parseInt);
+	return Arrays.stream(num.split(delimiter)).mapToInt(Integer::parseInt).map(n->n%1000);
     
     }
     
