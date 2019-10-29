@@ -4,11 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.*;
 import kata.Calculator;
 
 public class CalculatorTest {
 
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
 	
 	@Test
 	public void shouldReturnZero() {
@@ -46,30 +49,35 @@ public class CalculatorTest {
 	
 	
 	@Test
-	public void thrownOnNegative() {
-		Assertions.assertThrows(IllegalArgumentException.class, () ->Calculator.add("-3"));
+	public void negativeNumberThrown() {
+		expectedException.expect(IllegalArgumentException.class);
+		expectedException.expectMessage("negative number: -3");
+
+		Calculator.add("-3");
 	}
-	
+
 	@Test
-	public void thrownOnNegativeWithAllNumbersInMessage() {
-		Assertions.assertThrows(IllegalArgumentException.class, () ->Calculator.add("-3,-1,-2"));
-	}
-	
-	@Test void shouldNotAcceptBiggerThan1000() {
-		assertEquals(2, Calculator.add("1002"));
+	public void throwsOnNegativeNumbersWithAllNumbersInExceptionMessage() {
+		expectedException.expect(IllegalArgumentException.class);
+		expectedException.expectMessage("negative number: -3,-5,-13");
 
+		Calculator.add("1,-3,5,-5,-13");
 	}
-	
-	@Test void shouldAcceptAnyLength() {
-		assertEquals(6, Calculator.add("//[***]\n1***2***3"));
 
+	@Test
+	public void mapsNumbersAbove1000ToLastThreeDigits() {
+		assertEquals(Calculator.add("1002"), 2);
+		assertEquals(Calculator.add("1040,10002"),42);
 	}
-	
+
+	@Test
+	public void acceptsDelimiterOfArbitraryLength() {
+		assertEquals(Calculator.add("//[***]\n1***2***3"),6);
+	}
+
 	@Test
 	public void acceptsMultipleDelimiters() {
-		assertEquals(6,Calculator.add("//[-][;]\n1-2;3"));
-		assertEquals(9,Calculator.add("//[--][...]\n2--3...4"));
-
+		assertEquals(Calculator.add("//[-][;]\n1-2;3"), 6);
+		assertEquals(Calculator.add("//[--][...]\n2--3...4"), 9);
 	}
-	
 }
